@@ -30,6 +30,8 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 # Install dependencies
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
+RUN php artisan key:generate
+
 RUN chown -R www-data:www-data /var/www/html/vendor
 
 # Expose port
