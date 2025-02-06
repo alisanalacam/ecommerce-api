@@ -22,7 +22,9 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env
           echo "DB_DATABASE=${{ vars.DB_DATABASE }}" >> ./.env
           echo "APP_ENV=production" >> ./.env
+          echo "DB_PORT=3306" >> ./.env
           echo "APP_DEBUG=false" >> ./.env
+
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
