@@ -1,0 +1,344 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Order API",
+        "description": "API for managing orders in the system",
+        "contact": {
+            "name": "Support",
+            "email": "support@example.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/orders/apply-discounts": {
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Apply discounts to the order",
+                "description": "Apply discounts based on the order ID and calculate total discount",
+                "operationId": "applyDiscounts",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "order_id"
+                                ],
+                                "properties": {
+                                    "order_id": {
+                                        "description": "The ID of the order to apply discounts",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Discounts applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "order_id": {
+                                            "description": "Order ID",
+                                            "type": "integer"
+                                        },
+                                        "discounts": {
+                                            "description": "List of discounts applied to the order",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "discountReason": {
+                                                        "description": "Reason for the discount",
+                                                        "type": "string"
+                                                    },
+                                                    "discountAmount": {
+                                                        "description": "Amount of the discount",
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "subtotal": {
+                                                        "description": "Subtotal after applying this discount",
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "totalDiscount": {
+                                            "description": "Total discount amount applied to the order",
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "discountedTotal": {
+                                            "description": "Total amount after applying all discounts",
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error"
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/orders": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "operationId": "2cd7e03021e72d9d799c12dfe179c865",
+                "responses": {
+                    "200": {
+                        "description": "An example endpoint"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Create a new order",
+                "description": "Create a new order with the provided details",
+                "operationId": "createOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customerId",
+                                    "total",
+                                    "items"
+                                ],
+                                "properties": {
+                                    "customerId": {
+                                        "description": "Customer ID",
+                                        "type": "integer"
+                                    },
+                                    "total": {
+                                        "description": "Total order price",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "items": {
+                                        "description": "List of order items",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "productId",
+                                                "quantity",
+                                                "unitPrice",
+                                                "total"
+                                            ],
+                                            "properties": {
+                                                "productId": {
+                                                    "description": "Product ID",
+                                                    "type": "integer"
+                                                },
+                                                "quantity": {
+                                                    "description": "Quantity of the product",
+                                                    "type": "integer"
+                                                },
+                                                "unitPrice": {
+                                                    "description": "Price per unit",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "total": {
+                                                    "description": "Total price for the item",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "Order ID",
+                                            "type": "integer"
+                                        },
+                                        "customerId": {
+                                            "description": "Customer ID",
+                                            "type": "integer"
+                                        },
+                                        "total": {
+                                            "description": "Total order price",
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "items": {
+                                            "description": "List of items in the order",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "productId": {
+                                                        "description": "Product ID",
+                                                        "type": "integer"
+                                                    },
+                                                    "quantity": {
+                                                        "description": "Quantity of the product",
+                                                        "type": "integer"
+                                                    },
+                                                    "unitPrice": {
+                                                        "description": "Price per unit",
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "total": {
+                                                        "description": "Total price for the item",
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "customerId": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The customer id field is required."
+                                                    }
+                                                },
+                                                "total": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The total field is required."
+                                                    }
+                                                },
+                                                "items": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The items field is required."
+                                                    }
+                                                },
+                                                "items.0.quantity": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Insufficient stock."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/orders/{id}": {
+            "delete": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Delete an order",
+                "description": "Delete the order with the given ID",
+                "operationId": "deleteOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Order deletion failed"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Order",
+            "description": "Order"
+        }
+    ]
+}
