@@ -1,0 +1,57 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create .env for Backend
+        run: |
+          cp backend/.env.example backend/.env
+          echo "DB_HOST=mysql" >> backend/.env
+          echo "DB_USERNAME=${{ vars.DB_USERNAME }}" >> backend/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> backend/.env
+          echo "DB_DATABASE=${{ vars.DB_DATABASE }}" >> backend/.env
+          echo "APP_ENV=production" >> backend/.env
+          echo "APP_DEBUG=false" >> backend/.env
+
+
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub or DigitalOcean Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DOCR_USERNAME }}
+          password: ${{ secrets.DOCR_ACCESS_TOKEN }}
+
+      - name: Build and push backend image
+        working-directory: ./backend
+        run: |
+          docker build -f Dockerfile -t registry.digitalocean.com/pixlo/ecommerce-backend:latest .
+          docker push registry.digitalocean.com/pixlo/ecommerce-backend:latest
+
+      - name: Copy docker-compose file to server
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no deployment/prod/docker-compose.yml root@${{ secrets.SERVER_IP }}:/var/www/ecommerce-demo
+
+      - name: Deploy to server
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << EOF
+          cd /var/www/ecommerce-demo
+          docker login registry.digitalocean.com -u ${{ secrets.DOCR_USERNAME }} -p ${{ secrets.DOCR_ACCESS_TOKEN }}
+          docker-compose pull
+          docker-compose down
+          docker-compose up -d
+          EOF
