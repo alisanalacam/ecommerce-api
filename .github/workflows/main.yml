@@ -24,8 +24,6 @@ jobs:
           echo "APP_ENV=production" >> backend/.env
           echo "APP_DEBUG=false" >> backend/.env
 
-
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
