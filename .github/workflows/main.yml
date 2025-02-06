@@ -50,7 +50,7 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << EOF
           cd /var/www/ecommerce-demo
-          cat > docker-compose.yaml <<EOL
+          cat > docker-compose.yml <<EOL
           version: '3.8'
           services:
             backend:
@@ -58,7 +58,7 @@ jobs:
               volumes:
                 - ./:/var/www/html
               ports:
-                - "80:8000"
+                - "80:80"
               depends_on:
                 - mysql
               environment:
