@@ -46,6 +46,47 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no deployment/prod/docker-compose.yml root@${{ secrets.SERVER_IP }}:/var/www/ecommerce-demo
 
+      - name: Update docker-compose file on server
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ vars.SERVER_IP }} << EOF
+          cd /var/www/ecommerce-demo
+          cat > docker-compose.yaml <<EOL
+          version: '3.8'
+          services:
+            backend:
+              image: registry.digitalocean.com/pixlo/ecommerce-backend:latest
+              volumes:
+                - ./:/var/www/html
+              ports:
+                - "80:8000"
+              depends_on:
+                - mysql
+              environment:
+                - DB_CONNECTION=mysql
+                - DB_HOST=mysql
+                - DB_USERNAME=${{ vars.DB_USERNAME }}
+                - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+                - DB_DATABASE=${{ vars.DB_DATABASE }}
+                - APP_ENV=production
+                - DB_PORT=3306
+                - APP_DEBUG=false
+
+            mysql:
+              image: mysql:8.0
+              environment:
+                MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+                MYSQL_DATABASE: ${{ vars.DB_DATABASE }}
+                MYSQL_USER: ${{ vars.DB_USERNAME }}
+                MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+              volumes:
+                - mysql-data:/var/lib/mysql
+              ports:
+                - "3306:3306"
+
+          volumes:
+            mysql-data:
+          EOL
+
       - name: Deploy to server
         run: |
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << EOF
