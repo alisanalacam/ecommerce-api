@@ -48,7 +48,7 @@ jobs:
 
       - name: Update docker-compose file on server
         run: |
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ vars.SERVER_IP }} << EOF
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << EOF
           cd /var/www/ecommerce-demo
           cat > docker-compose.yaml <<EOL
           version: '3.8'
