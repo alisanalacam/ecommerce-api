@@ -33,7 +33,7 @@ RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 RUN chown -R www-data:www-data /var/www/html/vendor
 
 # Expose port
-EXPOSE 80
+EXPOSE 8080
 
 # Start Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
