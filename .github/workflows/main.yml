@@ -56,7 +56,7 @@ jobs:
             backend:
               image: registry.digitalocean.com/pixlo/ecommerce-backend:latest
               ports:
-                - "80:8080"
+                - "8080:8080"
               depends_on:
                 - mysql
               environment:
