@@ -35,7 +35,7 @@ https://ecommerce.vobiseller.com/docs
 - [x] Proje için digitalocean'da sunucu açıldı. cloudflare yönlendirme yapıldı.
 - [x] Proje için digitalocean'da container registry açıldı.
 - [x] Github actions ile auto deployment süreçleri yapılandırıldı.
-- [ ] Sipariş indirim uygulama testinin yazılması
+- [x] Sipariş indirim uygulama testinin yazılması
 - [ ] Sipariş ekleme/listeleme/silme için testlerin yazılması.
 
 #### Sipariş Kuralları
