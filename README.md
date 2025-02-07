@@ -6,7 +6,20 @@ Bu uygulama eticaret uygulamasının bazı modüllerini içermektedir.
 
 ## Kurulum
 
-Kurulum anlatılacaktır.
+Env dosyasını kopyalayın.
+```
+cp .env.example .env
+```
+
+Env dosyasında gerekli değişikliklerinizi yapın
+
+docker compose çalıştırın.
+```
+docker-compose up -d
+```
+
+## Dökümantasyon
+https://ecommerce.vobiseller.com/docs
 
 ## Yapılan/Yapılacak İşler
 
@@ -17,8 +30,8 @@ Kurulum anlatılacaktır.
 - [x] Proje için digitalocean'da sunucu açıldı. cloudflare yönlendirme yapıldı.
 - [x] Proje için digitalocean'da container registry açıldı.
 - [x] Github actions ile auto deployment süreçleri yapılandırıldı.
-- [ ] Sipariş ekleme/listeleme/silme için testlerin yazılması.
 - [ ] Sipariş indirim uygulama testinin yazılması
+- [ ] Sipariş ekleme/listeleme/silme için testlerin yazılması.
 
 #### Sipariş Kuralları
 - Yeni sipariş eklenirken, satın alınan ürünün stoğu yeterli değilse (**products.stock**) bir hata mesajı döndürün.
