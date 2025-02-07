@@ -37,6 +37,7 @@ https://ecommerce.vobiseller.com/docs
 - [x] Github actions ile auto deployment süreçleri yapılandırıldı.
 - [x] Sipariş indirim uygulama testinin yazılması
 - [ ] Sipariş ekleme/listeleme/silme için testlerin yazılması.
+- [ ] Model kullanımı repository olarak değiştirilecek!
 
 #### Sipariş Kuralları
 - Yeni sipariş eklenirken, satın alınan ürünün stoğu yeterli değilse (**products.stock**) bir hata mesajı döndürün.
