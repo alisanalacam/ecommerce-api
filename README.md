@@ -18,6 +18,11 @@ docker compose çalıştırın.
 docker-compose up -d
 ```
 
+Test çalıştırmak için: (container name kısmını docker ps ile kontrol edip, çalışan isim ile değiştirebilirsiniz)
+```
+docker exec -ti backend-backend-1 php artisan test
+```
+
 ## Dökümantasyon
 https://ecommerce.vobiseller.com/docs
 
